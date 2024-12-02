@@ -10,7 +10,7 @@ def isSafe(report):
 # O(k)
 def isSafeDampened(report):
 
-    if isSafe(report) or isSafe(report[1:]):
+    if isSafe(report[1:]):
         return True
 
     sign = 1 if report[1] - report[0] > 0 else -1
