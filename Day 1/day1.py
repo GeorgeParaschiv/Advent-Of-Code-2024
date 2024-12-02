@@ -1,6 +1,3 @@
-import os
-import math
-
 # Q1 : O(nlogn)
 def q1(list1, list2):
     
