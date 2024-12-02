@@ -1,4 +1,4 @@
-import math
+# Day 2 Advent of Code
 
 # O(k)
 def isSafe(report):
