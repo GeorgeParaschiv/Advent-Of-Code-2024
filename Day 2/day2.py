@@ -10,7 +10,7 @@ def isSafe(report):
 
     return all(((sign*report[i+1] > sign*report[i]) and (sign*report[i+1] < sign*report[i] + 4)) for i in range(len(report) - 1))
     
-# O(4k)
+# O(k)
 def isSafeDampened(report):
 
     if isSafe(report) or isSafe(report[1:]):
