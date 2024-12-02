@@ -1,7 +1,7 @@
-My Progress of the Advent of Code 2024 in Python
+# My Progress of the Advent of Code 2024 in Python
 
-Day 1: **
-Day 2: **
-Day 3: 
+- [x] Day 1: 2/2 
+- [x] Day 2: 2/2 
+- [ ] Day 3: 0/2 
 
 Total: 4/50
