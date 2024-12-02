@@ -3,9 +3,6 @@
 # O(k)
 def isSafe(report):
  
-    if len(set(report)) != len(report):
-        return False
-
     sign = 1 if report[1] - report[0] > 0 else -1
 
     return all(((sign*report[i+1] > sign*report[i]) and (sign*report[i+1] < sign*report[i] + 4)) for i in range(len(report) - 1))
