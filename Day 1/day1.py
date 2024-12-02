@@ -1,7 +1,7 @@
 import os
 import math
 
-# Q1
+# Q1 : O(nlogn)
 def q1(list1, list2):
     
     list1.sort()
@@ -13,7 +13,7 @@ def q1(list1, list2):
 
     print(f"Total Difference is: {diff}")
 
-# Q2
+# Q2 : O(n)
 def q2(list1, list2):
 
     # Create hashmap of list2: key = id, value = # of times id appears in list2
