@@ -2,34 +2,26 @@ import math
 
 # O(k)
 def isSafe(report):
+ 
+    if len(set(report)) != len(report):
+        return False
 
-    ascending = report[1] - report[0]
-    
-    if ascending == 0: 
-        return 0
+    sign = 1 if report[1] - report[0] > 0 else -1
 
-    if (ascending < 0):
-        return all(((report[i+1] < report[i]) and (report[i+1] > report[i] - 4)) for i in range(len(report) - 1))
-    else:
-        return all(((report[i+1] > report[i]) and (report[i+1] < report[i] + 4)) for i in range(len(report) - 1))
+    return all(((sign*report[i+1] > sign*report[i]) and (sign*report[i+1] < sign*report[i] + 4)) for i in range(len(report) - 1))
     
-# O(k)
+# O(4k)
 def isSafeDampened(report):
 
-    if isSafe(report):
-        return 1
+    if isSafe(report) or isSafe(report[1:]):
+        return True
 
-    ascending = report[1] - report[0]
+    sign = 1 if report[1] - report[0] > 0 else -1
     
-    if ascending == 0: 
-        return 0
+    for i in range(len(report) - 1):
+        if ((sign*report[i+1] <= sign*report[i]) or (sign*report[i+1] > sign*report[i] + 3)):
+            return (isSafe(report[:i] + report[i+1:]) or isSafe(report[:i+1] + report[i+2:]))
 
-    if (ascending < 0):
-        for i in range(len(report) - 1):
-        return all(((report[i+1] < report[i]) and (report[i+1] > report[i] - 4)) for i in range(len(report) - 1))
-    else:
-        return all(((report[i+1] > report[i]) and (report[i+1] < report[i] + 4)) for i in range(len(report) - 1))
-        
 # Q1 : O(kn)
 def q1(reports):
 
@@ -44,7 +36,7 @@ def q2(reports):
 
     safe = 0
     for report in reports:
-        safe += isSafe(report)
+        safe += isSafeDampened(report)
 
     print(f"Total Safe Reports is: {safe}")
 
@@ -58,4 +50,4 @@ if __name__ == "__main__":
         reports = [[int(level) for level in line.rstrip(" ").split()] for line in input]
 
     q1(reports)
-    #q2(reports)
+    q2(reports)
