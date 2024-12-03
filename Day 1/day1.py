@@ -1,4 +1,6 @@
-# Day 2 Advent of Code
+# Day 1 Advent of Code
+# Author: George Paraschiv
+# Date: 2024-12-01
 
 # Q1 : O(nlogn)
 def q1(list1, list2):
@@ -32,7 +34,7 @@ def q2(list1, list2):
 
     print(f"Similarity Score is: {score}")
 
-# Main
+# ---------- Main ----------
 if __name__ == "__main__":
 
     l1 = []

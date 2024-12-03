@@ -1,4 +1,6 @@
 # Day 2 Advent of Code
+# Author: George Paraschiv
+# Date: 2024-12-02
 
 # O(k)
 def isSafe(report):
@@ -37,7 +39,7 @@ def q2(reports):
 
     print(f"Total Safe Reports is: {safe}")
 
-# Main
+# ---------- Main ----------
 if __name__ == "__main__":
 
     reports = []

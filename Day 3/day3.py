@@ -1,4 +1,7 @@
 # Day 3 Advent of Code
+# Author: George Paraschiv
+# Date: 2024-12-03
+
 import re
 
 # Q1 : O(n)
@@ -39,7 +42,7 @@ def q2(input):
 
     return sum
 
-# Main
+# ---------- Main ----------
 if __name__ == "__main__":
 
     # Parse Input
