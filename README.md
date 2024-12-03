@@ -4,4 +4,4 @@
 - [x] Day 2: 2/2 
 - [x] Day 3: 2/2 
 
-Total: 4/50
+Total: 6/50
