@@ -4,5 +4,6 @@
 - [x] Day 2: 2/2 (Arrays)
 - [x] Day 3: 2/2 (Regex)
 - [x] Day 4: 2/2 (Word Search)
+- [x] Day 5: 2/2 (List Sorted By Rules)
 
-Total: 8/50
+Total: 10/50
