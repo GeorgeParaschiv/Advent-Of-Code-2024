@@ -28,14 +28,14 @@ def q1(rules, updates):
     return sum(int(update[len(update)//2]) for update in correctUpdates)
 
 
-# Q2 : O(u * log u + r)
+# Q2 : O(u^2)
 def q2(rules, updates):
     
     # Create dict where a keys values are a set of pages that must come before the key page   
     ruleSet = {}
     for rule in rules:
         ruleSet.setdefault(rule[0], set()).add(rule[1])
-    
+        
     sum = 0
     for update in updates:
         
