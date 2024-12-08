@@ -6,6 +6,6 @@
 - [x] Day 4: 2/2 (Word Search)
 - [x] Day 5: 2/2 (List Sorted By Rules)
 - [x] Day 6: 2/2 (Path Finding)
-- [ ] Day 7: 0/2 ()
+- [x] Day 7: 2/2 (Permutations With Replacement)
 
-Total: 10/50
+Total: 14/50
