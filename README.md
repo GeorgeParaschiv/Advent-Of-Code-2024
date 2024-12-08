@@ -7,5 +7,6 @@
 - [x] Day 5: 2/2 (List Sorted By Rules)
 - [x] Day 6: 2/2 (Path Finding)
 - [x] Day 7: 2/2 (Permutations With Replacement)
+- [x] Day 8: 2/2 (Location Finding)
 
-Total: 14/50
+Total: 16/50
