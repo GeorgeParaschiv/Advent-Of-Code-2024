@@ -2,7 +2,7 @@
 # Author: George Paraschiv
 # Date: 2024-12-08
 
-from timeit import timeit
+import time
 
 # Parse Input
 def parseInput():
@@ -19,12 +19,13 @@ def tryPosition(grid, nodes, x, y):
             return True
     else:
         False
-    
 
 # Q1 : O(n^2)
 def q1():
 
     grid = parseInput()
+    start = time.perf_counter()
+    
     antennaDict = dict()
 
     for row in range(len(grid)):
@@ -48,8 +49,11 @@ def q1():
                 elif (y1 < y2): # North West and South East
                     tryPosition(grid, antinodes, x1 - diffx, y1 - diffy)
                     tryPosition(grid, antinodes, x2 + diffx, y2 + diffy)
-        
-    return len(antinodes)
+    
+    total = len(antinodes)
+      
+    elapsed = (time.perf_counter() - start) * 1000000
+    return len(antinodes), round(elapsed)
 
 def tryAllPositions(grid, nodes, x1, x2, y1, y2, diffx, diffy):
     
@@ -79,6 +83,8 @@ def tryAllPositions(grid, nodes, x1, x2, y1, y2, diffx, diffy):
 def q2():
 
     grid = parseInput()
+    start = time.perf_counter()
+    
     antennaDict = dict()
 
     for row in range(len(grid)):
@@ -100,13 +106,18 @@ def q2():
                 
                 tryAllPositions(grid, antinodes, x1, x2, y1, y2, diffx, diffy)
     
-    return len(antinodes)
+    total = len(antinodes)
+    
+    elapsed = (time.perf_counter() - start) * 1000000
+    return total, round(elapsed)
 
 # ---------- Main ----------
 if __name__ == "__main__":
       
-    print(f"Unique antinodes: {q1()}")  
-    print(f"Unique antinodes: {q2()}")
+    sol1, time1 = q1()
+    print(f"Part 1 Solution: {sol1}")
+    print(f"Part 1 Time: {time1} us") 
     
-    print(f"Part 1 Average: {timeit('q1()', setup='from __main__ import q1', number=100)*10} ms")
-    print(f"Part 2 Average: {timeit('q2()', setup='from __main__ import q2', number=100)*10} ms")
+    sol2, time2 = q2()
+    print(f"Part 2 Solution: {sol2}")
+    print(f"Part 2 Time: {time2} us")

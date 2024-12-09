@@ -2,6 +2,8 @@
 # Author: George Paraschiv
 # Date: 2024-12-04   
 
+import time, cProfile
+
 DIRECTIONS = [
         (-1,  0),  # North
         (-1,  1),  # North East
@@ -21,24 +23,25 @@ def parseInput():
     return grid
 
 # Function to check all options of the word search 
-def search(grid, x, y):
+def search(grid, rows, cols, x, y):
     
-    def validString(dx, dy):
-
-        check = ""
-
+    target = "XMAS"
+    total = 0
+    
+    for dx, dy in DIRECTIONS:
+        valid = True
         for i in range(4):
             nx = x + dx * i
             ny = y + dy * i
 
-            if (0 <= nx < len(grid) and 0 <= ny < len(grid[nx])):
-                check += grid[nx][ny]
-            else:
-                return ""
-            
-        return check
+            if (not (0 <= nx < rows and 0 <= ny < cols) or grid[nx][ny] != target[i]):
+                valid = False
+                break
+        
+        if valid:  
+            total += 1
     
-    return sum(1 for dx, dy in DIRECTIONS if validString(dx, dy) == "XMAS")
+    return total
 
 # Function to check if MAS X exists
 def xSearch(grid, x, y):
@@ -54,35 +57,48 @@ def xSearch(grid, x, y):
 def q1():
 
     grid = parseInput()
+    start = time.perf_counter()
     
-    xmasCount = 0
+    total = 0
 
     # Search for first letter than call search algorithm at that index
-    for row in range(len(grid)):
-        for col in range(len(grid[row])):
-            if (grid[row][col] == "X"):
+    maxRows = len(grid)
+    maxCols = len(grid[0])
+    for row in range(maxRows):
+        for col in range(maxCols):
+            if (grid[row][col] == "X"):               
+                total += search(grid, maxRows, maxCols, row, col)
 
-                xmasCount += search(grid, row, col)
-
-    return xmasCount
+    elapsed = (time.perf_counter() - start) * 1000000
+    return total, round(elapsed)
 
 # Q2 : O(n)
 def q2():
 
     grid = parseInput()
+    start = time.perf_counter()
     
-    masxCount = 0
+    total = 0
 
-    for row in range(1, len(grid)-1):
-        for col in range(1, len(grid[row])-1):
+    maxRows = len(grid) - 1
+    maxCols = len(grid[0]) - 1
+    for row in range(1, maxRows):
+        for col in range(1, maxCols):
             if (grid[row][col] == "A"):
+                total += xSearch(grid, row, col)
 
-                masxCount += xSearch(grid, row, col)
-
-    return masxCount
+    elapsed = (time.perf_counter() - start) * 1000000
+    return total, round(elapsed)
 
 # ---------- Main ----------
 if __name__ == "__main__":
 
-    print(f"XMAS Count: {q1()}")
-    print(f"MAS-X Count: {q2()}")
+    cProfile.run("q2()")
+
+    sol1, time1 = q1()
+    print(f"Part 1 Solution: {sol1}")
+    print(f"Part 1 Time: {time1} us") 
+    
+    sol2, time2 = q2()
+    print(f"Part 2 Solution: {sol2}")
+    print(f"Part 2 Time: {time2} us")

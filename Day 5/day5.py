@@ -2,6 +2,8 @@
 # Author: George Paraschiv
 # Date: 2024-12-05
 
+import time
+
 # Parse Input
 def parseInput():
     with open("input.txt", "r") as input:
@@ -35,19 +37,26 @@ def checkUpdate(ruleSet, update):
 def q1():
     
     rules, updates = parseInput()
+    start = time.perf_counter()
+    
     ruleSet = createRuleSet(rules) 
     
     correctUpdates = [update for update in updates if checkUpdate(ruleSet, update)]
     
-    return sum(int(update[len(update)//2]) for update in correctUpdates)
+    total = sum(int(update[len(update)//2]) for update in correctUpdates)
+    
+    elapsed = (time.perf_counter() - start) * 1000000
+    return total, round(elapsed)
 
 # Q2 : O(u*(u + r))
 def q2():
     
-    rules, updates = parseInput() 
+    rules, updates = parseInput()
+    start = time.perf_counter()
+     
     ruleSet = createRuleSet(rules)
         
-    sum = 0
+    total = 0
     for update in updates:
         
         if checkUpdate(ruleSet, update):
@@ -58,12 +67,18 @@ def q2():
                 if (update[page] in ruleSet.get(update[other], "")):
                     update[page], update[other] = update[other], update[page] 
    
-        sum += int(update[len(update)//2])
+        total += int(update[len(update)//2])
     
-    return sum
+    elapsed = (time.perf_counter() - start) * 1000000
+    return total, round(elapsed)
 
 # ---------- Main ----------
 if __name__ == "__main__":
 
-    print(f"Correct Update Middle Value Sum: {q1()}")
-    print(f"Corrected Update Middle Value Sum: {q2()}")
+    sol1, time1 = q1()
+    print(f"Part 1 Solution: {sol1}")
+    print(f"Part 1 Time: {time1} us") 
+    
+    sol2, time2 = q2()
+    print(f"Part 2 Solution: {sol2}")
+    print(f"Part 2 Time: {time2} us")

@@ -8,6 +8,6 @@
 - [x] Day 6: 2/2 (Path Finding)
 - [x] Day 7: 2/2 (Permutations With Replacement)
 - [x] Day 8: 2/2 (Location Finding)
-- [ ] Day 9: 0/2 ()
+- [ ] Day 9: 1/2 (Disk Compaction)
 
 Total: 16/50

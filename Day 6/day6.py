@@ -2,7 +2,7 @@
 # Author: George Paraschiv
 # Date: 2024-12-06
 
-import cProfile
+import time
 
 DIRECTIONS = [(-1, 0), (0, 1), (1, 0), (0, -1)]
 
@@ -15,44 +15,32 @@ def parseInput():
 
 # Function to find the starting location of the guard
 def findStart(grid): 
-    for row in range(len(grid)):
-        for col in range(len(grid[0])):
-            if grid[row][col] == "^":
-                return row, col
-
-# Function to try a new position on the grid
-def tryNewPosition(grid, x, y, direction, visited):
-    
-    newX, newY = x + direction[0], y + direction[1]
-    
-    if ((0 <= newX < len(grid)) and (0 <= newY < len(grid[0]))):
-        if (grid[newX][newY] == "#"):
-            return 1
-        else:
-            if (grid[newX][newY] not in visited):
-                visited.add((newX, newY))
-            return 0
-    else:
-        return -1
+    for row in grid:
+        for col in row:
+            if col == "^":
+                return grid.index(row), row.index(col)    
 
 # Function to Simulate the Guards Path
-def simulate(grid, xPos, yPos, visited=set()):
+def simulate(grid, xPos, yPos):
     
     current = 0
-    orientations = [[set() for _ in row] for row in grid]
+    visited = set()
+    orientations = [[[] for _ in row] for row in grid]
     
     while (current not in orientations[xPos][yPos]):
     
-        orientations[xPos][yPos].add(current) 
-        result = tryNewPosition(grid, xPos, yPos, DIRECTIONS[current], visited)
+        orientations[xPos][yPos].append(current) 
         
-        if (result == -1):           
-            return True
-        elif (result == 0):
-            xPos += DIRECTIONS[current][0]
-            yPos += DIRECTIONS[current][1]
+        newX, newY = xPos + DIRECTIONS[current][0], yPos + DIRECTIONS[current][1]
+    
+        if ((0 <= newX < len(grid)) and (0 <= newY < len(grid[0]))):
+            if (grid[newX][newY] == "#"):
+                current = (current + 1) % 4
+            else:
+                visited.add((newX, newY))
+                xPos, yPos = newX, newY
         else:
-            current = (current + 1) % 4
+            return visited
             
     return False   
 
@@ -60,37 +48,44 @@ def simulate(grid, xPos, yPos, visited=set()):
 def q1():
     
     lines = parseInput()
-    visited = set()
+    start = time.perf_counter()
     
     xPos, yPos = findStart(lines)
+    visited = simulate(lines, xPos, yPos)
     
-    simulate(lines, xPos, yPos, visited)
+    total = len(visited) + 1
                        
-    return len(visited) + 1
+    elapsed = (time.perf_counter() - start) * 1000000
+    return total, round(elapsed)
 
 # Q2 : O(n^2)
 def q2():
     
     lines = parseInput()
-    visited = set()
+    start = time.perf_counter()
     
     xPos, yPos = findStart(lines)
-
-    simulate(lines, xPos, yPos, visited)
+    visited = simulate(lines, xPos, yPos)
     
-    sum = 0
+    total = 0
     for location in visited:
         lines[location[0]][location[1]] = "#"  
             
         if (not simulate(lines, xPos, yPos)):
-            sum += 1 
+            total += 1 
                     
         lines[location[0]][location[1]] = "."
    
-    return sum
+    elapsed = (time.perf_counter() - start) * 1000000
+    return total, round(elapsed)
 
 # ---------- Main ----------
 if __name__ == "__main__":
 
-    print(f"Distinct Positions Visited: {q1()}")   
-    print(f"Distinct Obstacle Positions: {q2()}")
+    sol1, time1 = q1()
+    print(f"Part 1 Solution: {sol1}")
+    print(f"Part 1 Time: {time1} us") 
+    
+    sol2, time2 = q2()
+    print(f"Part 2 Solution: {sol2}")
+    print(f"Part 2 Time: {time2} us")

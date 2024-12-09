@@ -2,6 +2,8 @@
 # Author: George Paraschiv
 # Date: 2024-12-02
 
+import time
+
 # Parse Input
 def parseInput():
     with open("input.txt", "r") as input:
@@ -31,27 +33,36 @@ def isSafeDampened(report):
 # Q1 : O(n)
 def q1():
 
-    reports = parseInput()
+    reports = parseInput()  
+    start = time.perf_counter()
     
-    safe = 0
+    total = 0
     for report in reports:
-        safe += isSafe(report)
+        total += isSafe(report)
 
-    return safe
+    elapsed = (time.perf_counter() - start) * 1000000
+    return total, round(elapsed) 
 
 # Q2 : O(n)
 def q2():
     
     reports = parseInput()
+    start = time.perf_counter()
 
-    safe = 0
+    total = 0
     for report in reports:
-        safe += isSafeDampened(report)
+        total += isSafeDampened(report)
 
-    return safe
+    elapsed = (time.perf_counter() - start) * 1000000
+    return total, round(elapsed) 
 
 # ---------- Main ----------
 if __name__ == "__main__":
 
-    print(f"Safe Reports: {q1()}")  
-    print(f"Safe Dampened Reports: {q2()}")
+    sol1, time1 = q1()
+    print(f"Part 1 Solution: {sol1}")
+    print(f"Part 1 Time: {time1} us") 
+    
+    sol2, time2 = q2()
+    print(f"Part 2 Solution: {sol2}")
+    print(f"Part 2 Time: {time2} us") 

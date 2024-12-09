@@ -2,6 +2,8 @@
 # Author: George Paraschiv
 # Date: 2024-12-01
 
+import time
+
 # Parse Input
 def parseInput():
     
@@ -13,24 +15,27 @@ def parseInput():
     
     return list1, list2
 
-# Q1 : O(nlogn)
+# Q1 : O(n * logn)
 def q1():
     
     list1, list2 = parseInput()
+    start = time.perf_counter()
     
     list1.sort()
     list2.sort()
 
-    diff = 0
+    total = 0
     for index, line in enumerate(list1):
-        diff += abs(list1[index]-list2[index])
-
-    return diff
+        total += abs(list1[index]-list2[index])
+        
+    elapsed = (time.perf_counter() - start) * 1000000
+    return total, round(elapsed) 
 
 # Q2 : O(n)
 def q2():
     
-    list1, list2 = parseInput()
+    list1, list2 = parseInput()  
+    start = time.perf_counter()
 
     # Create hashmap of list2: key = id, value = # of times id appears in list2
     dict2 = {}
@@ -41,15 +46,21 @@ def q2():
             dict2[id] = 1
 
     # Check if item in list 1 is in hashmap and update similarity score
-    score = 0
+    total = 0
     for id in list1:
         if id in dict2:
-            score += id * dict2[id]
+            total += id * dict2[id]
 
-    return score
+    elapsed = (time.perf_counter() - start) * 1000000
+    return total, round(elapsed)
 
 # ---------- Main ----------
 if __name__ == "__main__":
 
-    print(f"Total Difference: {q1()}")  
-    print(f"Similarity Score: {q2()}")
+    sol1, time1 = q1()
+    print(f"Part 1 Solution: {sol1}")
+    print(f"Part 1 Time: {time1} us") 
+    
+    sol2, time2 = q2()
+    print(f"Part 2 Solution: {sol2}")
+    print(f"Part 2 Time: {time2} us")  
