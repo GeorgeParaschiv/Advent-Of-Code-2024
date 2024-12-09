@@ -2,6 +2,16 @@
 # Author: George Paraschiv
 # Date: 2024-12-08
 
+from timeit import timeit
+
+# Parse Input
+def parseInput():
+    with open("input.txt", "r") as input:
+        lines = [list(line.rstrip()) for line in input.readlines()]
+    
+    return lines
+
+# Function to try a new grid position
 def tryPosition(grid, nodes, x, y):
     
     if (0 <= x < len(grid) and 0 <= y < len(grid[0])):
@@ -12,8 +22,9 @@ def tryPosition(grid, nodes, x, y):
     
 
 # Q1 : O(n^2)
-def q1(grid):
+def q1():
 
+    grid = parseInput()
     antennaDict = dict()
 
     for row in range(len(grid)):
@@ -65,8 +76,9 @@ def tryAllPositions(grid, nodes, x1, x2, y1, y2, diffx, diffy):
     return
 
 # Q2 : O(n^2)
-def q2(grid):
+def q2():
 
+    grid = parseInput()
     antennaDict = dict()
 
     for row in range(len(grid)):
@@ -92,10 +104,9 @@ def q2(grid):
 
 # ---------- Main ----------
 if __name__ == "__main__":
-
-    # Parse Input
-    with open("input.txt", "r") as input:
-        lines = [list(line.rstrip()) for line in input.readlines()]
-
-    print(f"Unique antinodes: {q1(lines)}")  
-    print(f"Unique antinodes: {q2(lines)}")
+      
+    print(f"Unique antinodes: {q1()}")  
+    print(f"Unique antinodes: {q2()}")
+    
+    print(f"Part 1 Average: {timeit('q1()', setup='from __main__ import q1', number=100)*10} ms")
+    print(f"Part 2 Average: {timeit('q2()', setup='from __main__ import q2', number=100)*10} ms")

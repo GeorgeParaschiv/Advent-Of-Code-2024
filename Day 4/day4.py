@@ -13,14 +13,21 @@ DIRECTIONS = [
         (-1, -1)   # North West
 ]
 
-# Function to check all options of the word earch 
-def search(x, y, word):
+# Parse Input
+def parseInput():
+    with open("input.txt", "r") as input:
+        grid = [line.rstrip() for line in input.readlines()]
+    
+    return grid
+
+# Function to check all options of the word search 
+def search(grid, x, y):
     
     def validString(dx, dy):
 
         check = ""
 
-        for i in range(len(word)):
+        for i in range(4):
             nx = x + dx * i
             ny = y + dy * i
 
@@ -31,10 +38,10 @@ def search(x, y, word):
             
         return check
     
-    return sum(1 for dx, dy in DIRECTIONS if validString(dx, dy) == word)
+    return sum(1 for dx, dy in DIRECTIONS if validString(dx, dy) == "XMAS")
 
 # Function to check if MAS X exists
-def xSearch(x, y):
+def xSearch(grid, x, y):
 
     cross = {"S", "M"}
 
@@ -44,38 +51,38 @@ def xSearch(x, y):
         return 0
 
 # Q1 : O(n)
-def q1(word):
+def q1():
 
+    grid = parseInput()
+    
     xmasCount = 0
 
     # Search for first letter than call search algorithm at that index
     for row in range(len(grid)):
         for col in range(len(grid[row])):
-            if (grid[row][col] == word[0]):
+            if (grid[row][col] == "X"):
 
-                xmasCount += search(row, col, word)
+                xmasCount += search(grid, row, col)
 
     return xmasCount
 
 # Q2 : O(n)
 def q2():
 
+    grid = parseInput()
+    
     masxCount = 0
 
     for row in range(1, len(grid)-1):
         for col in range(1, len(grid[row])-1):
             if (grid[row][col] == "A"):
 
-                masxCount += xSearch(row, col)
+                masxCount += xSearch(grid, row, col)
 
     return masxCount
 
 # ---------- Main ----------
 if __name__ == "__main__":
 
-    # Parse Input
-    with open("input.txt", "r") as input:
-        grid = [line.rstrip() for line in input.readlines()]
-
-    print(f"XMAS count: {q1("XMAS")}")
-    print(f"MAS X count: {q2()}")
+    print(f"XMAS Count: {q1()}")
+    print(f"MAS-X Count: {q2()}")

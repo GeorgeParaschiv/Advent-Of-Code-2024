@@ -2,44 +2,55 @@
 # Author: George Paraschiv
 # Date: 2024-12-05
 
-# Check if update is valid based on rules : O(u + r)
+# Parse Input
+def parseInput():
+    with open("input.txt", "r") as input:
+        sections = input.read().strip().split("\n\n")
+        
+    rules = [tuple(int(x) for x in line.split("|")) for line in sections[0].splitlines()]
+    updates = [[int(x) for x in line.split(",")] for line in sections[1].splitlines()]
+    
+    return rules, updates
+
+# Function to create set of rules from input
+def createRuleSet(rules):
+    
+    # ruleSet = {page : {set of pages that page must come before}}
+    ruleSet = {}
+    for rule in rules:
+        ruleSet.setdefault(rule[0], set()).add(rule[1])
+        
+    return ruleSet
+
+# Function to check if update is valid based on rules
 def checkUpdate(ruleSet, update):
     
-    # Create a dict for every page in the updates with value being the index in 
-    indexDict = {page : index for index, page in enumerate(update)}
-    
-    # For every rule check that x does not come before y in the update
-    for x,y in rules:
-        if x in indexDict and y in indexDict and indexDict[x] > indexDict[y]:
+    for pageIndex, page in enumerate(update[:-1]):
+        if (page in ruleSet[update[pageIndex+1]]):
             return False
         
     return True
 
-# Q1 : O(u * r)
-def q1(rules, updates):
+# Q1 : O(u + r)
+def q1():
     
-    # Create dict where a keys values are a set of pages that must come before the key page   
-    ruleSet = {}
-    for rule in rules:
-        ruleSet.setdefault(rule[0], set()).add(rule[1])
+    rules, updates = parseInput()
+    ruleSet = createRuleSet(rules) 
     
     correctUpdates = [update for update in updates if checkUpdate(ruleSet, update)]
     
     return sum(int(update[len(update)//2]) for update in correctUpdates)
 
-
-# Q2 : O(u^2)
-def q2(rules, updates):
+# Q2 : O(u*(u + r))
+def q2():
     
-    # Create dict where a keys values are a set of pages that must come before the key page   
-    ruleSet = {}
-    for rule in rules:
-        ruleSet.setdefault(rule[0], set()).add(rule[1])
+    rules, updates = parseInput() 
+    ruleSet = createRuleSet(rules)
         
     sum = 0
     for update in updates:
         
-        if checkUpdate(rules, update):
+        if checkUpdate(ruleSet, update):
             continue
         
         for page in range(len(update) - 1):
@@ -54,12 +65,5 @@ def q2(rules, updates):
 # ---------- Main ----------
 if __name__ == "__main__":
 
-    # Parse Input
-    with open("input.txt", "r") as input:
-        sections = input.read().strip().split("\n\n")
-        
-    rules = [tuple(int(x) for x in line.split("|")) for line in sections[0].splitlines()]
-    updates = [[int(x) for x in line.split(",")] for line in sections[1].splitlines()]
-
-    print(f"Sum of correct update middle values is {q1(rules, updates)}")
-    print(f"Sum of corrected update middle values is {q2(rules, updates)}")
+    print(f"Correct Update Middle Value Sum: {q1()}")
+    print(f"Corrected Update Middle Value Sum: {q2()}")

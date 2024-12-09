@@ -4,14 +4,27 @@
 
 from itertools import product
 
-operators = ["+", "*"]
+OPERATORS = {"+", "*"}
 
-# Q1 : 
-def q1(input):
+POWERS = [1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000,
+          1000000000, 10000000000, 100000000000, 1000000000000, 10000000000000, 
+          100000000000000, 1000000000000000, 10000000000000000]
 
+# Parse Input
+def parseInput():
+    with open("input.txt", "r") as input:
+        lines = [line.rstrip().replace(":", "").split() for line in input.readlines()]
+    
+    return lines
+
+# Q1 : O(2^n)
+def q1():
+
+    input = parseInput()
+    
     total = 0
     for line in input:  
-        comboList = product(operators, repeat=len(line)-2)
+        comboList = product(OPERATORS, repeat=len(line)-2)
         
         for opList in comboList:
             sum = int(line[1])
@@ -25,7 +38,7 @@ def q1(input):
                 elif (opList[index] == "*"):
                     sum *= int(line[index+2])
                 else:
-                    sum = sum * (10**len(line[index+2])) + int(line[index+2])
+                    sum = (sum * POWERS[len(line[index+2])]) + int(line[index+2])
           
             
             if (sum == int(line[0])):
@@ -34,18 +47,14 @@ def q1(input):
         
     return total
 
-# Q2 : 
-def q2(input):
+# Q2 : O(3^n)
+def q2():
     
-    operators.append("||")
-    return q1(lines)
+    OPERATORS.add("||")
+    return q1()
 
 # ---------- Main ----------
 if __name__ == "__main__":
 
-    # Parse Input
-    with open("input.txt", "r") as input:
-        lines = [line.rstrip().replace(":", "").split() for line in input.readlines()]
-
-    print(f"Total calibration result is: {q1(lines)}")
-    print(f"Second calibration result is: {q2(lines)}")
+    print(f"First Calibration Result: {q1()}")
+    print(f"Second Calibration Result: {q2()}")
