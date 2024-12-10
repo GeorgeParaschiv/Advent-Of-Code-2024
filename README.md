@@ -8,6 +8,7 @@
 - [x] Day 6: 2/2 (Path Finding)
 - [x] Day 7: 2/2 (Permutations With Replacement)
 - [x] Day 8: 2/2 (Location Finding)
-- [ ] Day 9: 1/2 (Disk Compaction)
+- [x] Day 9: 2/2 (Two Pointer Search)
+- [x] Day 10: 2/2 (Single Source Single Destination Single/All Paths)
 
 Total: 16/50

@@ -16,6 +16,7 @@ def parseInput():
     
     return lines
 
+# Function to precompute the permutations
 def computeCombos(operators):
     
     combos = []
@@ -24,24 +25,34 @@ def computeCombos(operators):
         
     return combos
 
+# Function to check each combination starting from the end
 def checkCombinations(line, comboList):
+    
+    target = line[1]
     
     for opList in comboList:
         total = line[0]
-        sum = line[1]
-        for index in range(len(opList)):
+        for index in range(len(opList)-1, -1, -1):
             
             num = line[index+2]
             
             if (opList[index] == 0):
-                sum += num
+                total -= num
             elif (opList[index] == 1):
-                sum *= num
+                if total % num == 0:
+                    total //= num
+                else:
+                    break        
             else:
-                sum = (sum * POWERS[len("%i" %num)]) + num
+                divisor = POWERS[len(str(num))]
+                
+                if total % divisor != num:
+                    break
+                else:
+                    total //= divisor 
         
-        if (sum == total):
-            return total
+        if (total == target):
+            return line[0]
         
     return 0
 

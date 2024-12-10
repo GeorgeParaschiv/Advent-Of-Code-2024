@@ -2,3 +2,4 @@ input.txt
 setup.ps1
 __pycache__
 *.jpg
+*.png

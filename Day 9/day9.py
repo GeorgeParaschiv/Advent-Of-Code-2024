@@ -2,7 +2,8 @@
 # Author: George Paraschiv
 # Date: 2024-12-09
 
-import time, cProfile
+import time
+from collections import deque, defaultdict
 
 # Parse Input
 def parseInput():
@@ -20,12 +21,12 @@ def createDiskMap(input):
     # Create Disk Map
     for index, num in enumerate(input):
         if index % 2:
-            diskMap += ["."] * num   
+            diskMap += [-1] * num
         else:
-            diskMap += [str(ID)] * num
+            diskMap += [ID] * num
             ID += 1
     
-    return diskMap
+    return len(diskMap), diskMap
 
 # Q1 : O(n)
 def q1():
@@ -33,15 +34,15 @@ def q1():
     input = parseInput()
     start = time.perf_counter()
         
-    diskMap = createDiskMap(input)
+    diskSize, diskMap = createDiskMap(input)
             
     # Compact the Disk
     startIndex = 0
-    finishIndex = len(diskMap) - 1
+    finishIndex = diskSize - 1
         
     while(startIndex < finishIndex):
-        if (diskMap[startIndex] == "."):
-            if (diskMap[finishIndex] == "."):
+        if (diskMap[startIndex] == -1):
+            if (diskMap[finishIndex] == -1):
                 finishIndex -= 1
             else:
                 diskMap[startIndex], diskMap[finishIndex] = diskMap[finishIndex], diskMap[startIndex]    
@@ -51,20 +52,75 @@ def q1():
     # Compute Checksum
     total = 0
             
-    for index, item in enumerate(diskMap):
-        if item != ".":
-            total += int(item) * index
+    for index in range(diskSize):
+        if diskMap[index] != -1:
+            total += diskMap[index] * index
     
     elapsed = (time.perf_counter() - start) * 1000000
     return total, round(elapsed)
 
-# Q2 : 
+# Function to find the length of ID blocks
+def findLength(diskMap, index):
+    
+    ID = diskMap[index]
+    length = 0
+    
+    while(diskMap[index] == ID):
+        index -= 1
+        length += 1
+    
+    return index, length 
+  
+# Q2 : O(n^2)
 def q2():
 
     input = parseInput()
     start = time.perf_counter()
     
+    diskSize, diskMap = createDiskMap(input)
+    
+    # Compact the Disk
+    finishIndex = diskSize - 1
+    
+    # Create Free Space Hash
+    freeSpace = {}
+    spaces = 0
+    
+    for i in range(diskSize):
+        if (diskMap[i] == -1):
+            startIndex = i
+            spaces += 1
+        elif (spaces != 0):
+            freeSpace.update({(startIndex - spaces):spaces})
+            spaces = 0   
+        
+    while(freeSpace):
+        
+        if diskMap[finishIndex] == -1:
+            finishIndex -= 1
+            freeSpace.pop(finishIndex, None)
+        else:
+            
+            finishIndex, length = findLength(diskMap, finishIndex)  
+            
+            for keyIndex, key in enumerate(freeSpace.keys()):
+                if (freeSpace[key] >= length):
+                    diskMap[key + 1 : key + length + 1], diskMap[finishIndex + 1 : finishIndex + length + 1] = diskMap[finishIndex + 1 : finishIndex + length + 1], diskMap[key + 1 : key + length + 1]
+                    
+                    if (freeSpace[key] > length):
+                        items = list(freeSpace.items())
+                        items.insert(keyIndex, ((key+length),(freeSpace[key]-length)))
+                        freeSpace = dict(items)
+                        
+                    del freeSpace[key] 
+                    break
+            
+    # Compute Checksum
     total = 0
+            
+    for index in range(diskSize):
+        if diskMap[index] != -1:
+            total += diskMap[index] * index
     
     elapsed = (time.perf_counter() - start) * 1000000
     return total, round(elapsed)

@@ -2,7 +2,7 @@
 # Author: George Paraschiv
 # Date: 2024-12-05
 
-import time
+import time, functools
 
 # Parse Input
 def parseInput():
@@ -41,14 +41,12 @@ def q1():
     
     ruleSet = createRuleSet(rules) 
     
-    correctUpdates = [update for update in updates if checkUpdate(ruleSet, update)]
-    
-    total = sum(int(update[len(update)//2]) for update in correctUpdates)
+    total = sum(update[len(update)//2] for update in updates if checkUpdate(ruleSet, update))
     
     elapsed = (time.perf_counter() - start) * 1000000
     return total, round(elapsed)
 
-# Q2 : O(u*(u + r))
+# Q2 : O(u*log u + r)
 def q2():
     
     rules, updates = parseInput()
@@ -61,14 +59,11 @@ def q2():
         
         if checkUpdate(ruleSet, update):
             continue
-        
-        for page in range(len(update) - 1):
-            for other in range(page+1, len(update)):
-                if (update[page] in ruleSet.get(update[other], "")):
-                    update[page], update[other] = update[other], update[page] 
-   
-        total += int(update[len(update)//2])
     
+        update.sort(key=functools.cmp_to_key(lambda x, y: 1 if y in ruleSet[x] else -1))
+   
+        total += update[len(update)//2]
+        
     elapsed = (time.perf_counter() - start) * 1000000
     return total, round(elapsed)
 
