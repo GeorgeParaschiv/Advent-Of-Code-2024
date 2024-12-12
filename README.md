@@ -10,5 +10,7 @@
 - [x] Day 8: 2/2 (Location Finding)
 - [x] Day 9: 2/2 (Two Pointer Search)
 - [x] Day 10: 2/2 (Single Source Single Destination Single/All Paths)
+- [x] Day 11: 2/2 (Hashmap Counter With Caching)
+- [ ] Day 12: 0/2 (Partitioning)
 
-Total: 16/50
+Total: 22/50
