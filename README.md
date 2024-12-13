@@ -11,6 +11,7 @@
 - [x] Day 9: 2/2 (Two Pointer Search)
 - [x] Day 10: 2/2 (Single Source Single Destination Single/All Paths)
 - [x] Day 11: 2/2 (Hashmap Counter With Caching)
-- [ ] Day 12: 0/2 (Partitioning)
+- [ ] Day 12: 1/2 (Partitioning)
+- [x] Day 13: 2/2 (System of Two Equations)
 
-Total: 22/50
+Total: 25/50
