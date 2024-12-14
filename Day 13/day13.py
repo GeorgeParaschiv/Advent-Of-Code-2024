@@ -13,7 +13,7 @@ def parseInput():
         
         return [tuple(int(x) for x in match)for match in re.findall(pattern, lines)]
 
-# Q1 : 
+# Q1 : O(n)
 def q1():
 
     input = parseInput()
@@ -38,7 +38,7 @@ def q1():
     elapsed = (time.perf_counter() - start) * 1000000
     return total, round(elapsed)
 
-# Q2 : 
+# Q2 : O(n)
 def q2():
 
     input = parseInput()
