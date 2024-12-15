@@ -13,6 +13,7 @@
 - [x] Day 11: 2/2 (Hashmap Counter With Caching)
 - [x] Day 12: 2/2 (Partitioning)
 - [x] Day 13: 2/2 (System of Two Equations)
-- [ ] Day 14: 0/2 ()
+- [x] Day 14: 2/2 (Simulations)
+- [ ] Day 15: 0/2 (Simulations 2)
 
-Total: 25/50
+Total: 28/50
