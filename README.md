@@ -14,6 +14,6 @@
 - [x] Day 12: 2/2 (Partitioning)
 - [x] Day 13: 2/2 (System of Two Equations)
 - [x] Day 14: 2/2 (Simulations)
-- [ ] Day 15: 0/2 (Simulations 2)
+- [ ] Day 15: 1/2 (Simulations 2)
 
-Total: 28/50
+Total: 29/50
